@@ -1,302 +1,432 @@
-# Day 7：Mini Project（Titanic EDA 完整分析）⭐⭐⭐⭐⭐
+# Day 7：Business EDA & Statistical Thinking（Data Scientist Version）⭐⭐⭐⭐⭐
 
-⏱️ 時間：4～6 小時
-🎯 目標：完成第一份 Data Scientist 等級的 EDA 報告
-
----
-
-# 0. 專案目標
-
-你要完成：
-
-✅ Titanic 資料探索（EDA）
-✅ 男女生存率分析
-✅ groupby 統計
-✅ 基本視覺化（histogram / boxplot）
-✅ 結論整理（像報告）
+**預計時間：5～7 小時**
 
 ---
 
-# 1. 載入資料
+# 🎯 今日目標
 
-```python id="load1"
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
+今天不是學新的函式，而是學會：
 
-df = sns.load_dataset("titanic")
+* 如何從商業問題開始分析資料
+* 如何選擇適合的圖表
+* 如何判讀圖表
+* 如何決定統計檢定方法
+* 如何撰寫分析結論
+
+完成今天後，你將具備：
+
+✅ EDA 分析流程
+
+✅ Visualization Thinking
+
+✅ Statistical Thinking
+
+✅ Business Thinking
+
+---
+
+# Project 1：Titanic Business Case
+
+## Business Question
+
+> 女性真的比較容易生還嗎？
+
+---
+
+## Step 1：提出研究問題
+
+請寫出：
+
+### H₀（虛無假設）
+
+### H₁（對立假設）
+
+並說明：
+
+> 我到底要驗證什麼？
+
+---
+
+## Step 2：思考需要哪些欄位
+
+例如：
+
+* survived
+* sex
+
+是否還需要：
+
+* class
+* age
+* fare
+
+請說明原因。
+
+---
+
+## Step 3：EDA
+
+請自己決定：
+
+哪些圖最適合？
+
+至少畫：
+
+* countplot
+* barplot
+
+回答：
+
+* 男女比例？
+* 男女生存率？
+* 有沒有明顯差異？
+
+---
+
+## Step 4：Group Analysis
+
+完成：
+
+```python
+df.groupby("sex")["survived"].mean()
+
+df.groupby(["sex","class"])["survived"].mean()
 ```
 
----
+回答：
 
-# 2. 基本資料探索（EDA 基礎）
-
-## head()
-
-```python id="head1"
-df.head()
-```
+* 哪一組最高？
+* 哪一組最低？
 
 ---
 
-## info()
-
-```python id="info1"
-df.info()
-```
-
----
-
-## describe()
-
-```python id="desc1"
-df.describe()
-```
-
----
-
-## 🎯 Exercise 1
+## Step 5：Statistical Thinking
 
 請回答：
 
-1. 資料有幾筆？
-2. 有哪些欄位？
-3. age 是否有缺失值？
+這是：
+
+* 類別 vs 類別？
+* 類別 vs 數值？
+
+應該使用哪種統計檢定？
+
+並說明原因。
 
 ---
 
-# 3. 資料理解（重要）
+## Step 6：Business Conclusion
 
-## 欄位觀察
-
-```python id="col1"
-df.columns
-```
+請用主管看得懂的方式寫出結論。
 
 ---
 
-## 🎯 Exercise 2
+# Project 2：Titanic Business Case
 
-回答：
+## Business Question
 
-* 哪些欄位是數值？
-* 哪些欄位是類別？
+> 第一艙真的比較安全嗎？
 
----
-
-# 4. 男女生存率分析（核心）
-
-## groupby（最重要）
-
-```python id="grp1"
-df.groupby("sex")["survived"].mean()
-```
+完成：
 
 ---
 
-## 🎯 Exercise 3
-
-請回答：
-
-* 女性生存率是多少？
-* 男性生存率是多少？
-* 哪個比較高？
+### 研究問題
 
 ---
 
-## 進階 groupby
+### EDA
 
-```python id="grp2"
-df.groupby(["sex", "class"])["survived"].mean()
-```
+請自己決定：
 
----
+應該畫：
 
-## 🎯 Exercise 4
+* barplot？
+* countplot？
+* heatmap？
 
-回答：
-
-* 哪一群（sex + class）生存率最高？
-* 哪一群最低？
+並說明理由。
 
 ---
 
-# 5. 視覺化分析（Data Insight）
+### Group Analysis
 
----
+完成：
 
-# 5-1 Histogram（分布）
-
-## 年齡分布
-
-```python id="hist1"
-plt.hist(df["age"].dropna(), bins=20)
-plt.title("Age Distribution")
-plt.show()
-```
-
----
-
-## 🎯 Exercise 5
-
-畫出：
-
-* fare 分布圖
-
-並回答：
-
-👉 大部分票價集中在哪裡？
-
----
-
-# 5-2 Boxplot（分布 + 比較）
-
-## 性別 vs 年齡
-
-```python id="box1"
-sns.boxplot(x="sex", y="age", data=df)
-plt.title("Age vs Sex")
-plt.show()
-```
-
----
-
-## 🎯 Exercise 6
-
-畫：
-
-* class vs fare boxplot
-
-並回答：
-
-👉 哪一個艙等票價最高？
-
----
-
-## 生存 vs 年齡
-
-```python id="box2"
-sns.boxplot(x="survived", y="age", data=df)
-plt.title("Survival vs Age")
-plt.show()
-```
-
----
-
-## 🎯 Exercise 7
-
-回答：
-
-👉 生還者是否比較年輕？
-
----
-
-# 6. 綜合分析（Data Insight）
-
-## Step 1：生存率
-
-```python id="final1"
-df["survived"].value_counts(normalize=True)
-```
-
----
-
-## Step 2：男女差異
-
-```python id="final2"
-df.groupby("sex")["survived"].mean()
-```
-
----
-
-## Step 3：艙等影響
-
-```python id="final3"
+```python
 df.groupby("class")["survived"].mean()
 ```
 
----
+再計算：
 
-## 🎯 Exercise 8
+```python
+df.groupby("class")["survived"].value_counts()
+```
 
-請回答：
+回答：
 
-1. 哪個因素影響生存率最大？
-
-   * sex？
-   * class？
-   * age？
-
----
-
-# 7. Final Conclusion（一定要寫）
-
-請寫出你的結論（可以用中文）：
+* 每個艙等存活人數
+* 每個艙等死亡人數
+* 生存率
 
 ---
 
-## ✍️ 範例（可直接改）
+### Conclusion
 
-```text
-從 Titanic 資料分析中可以觀察到：
+第一艙真的比較安全嗎？
 
-1. 女性生存率明顯高於男性
-2. 第一艙等生存率高於第三艙等
-3. 年齡較低的乘客生存率稍高
-4. 票價較高的乘客生存率較高
+---
 
-因此可以推測：
-性別與艙等是影響生存的重要因素。
+# Project 3：Titanic Business Case
+
+## Business Question
+
+> 小孩真的比較容易生還嗎？
+
+---
+
+## Feature Engineering
+
+建立：
+
+```python
+df["age_group"]
+```
+
+例如：
+
+* Child
+* Adult
+* Senior
+
+---
+
+分析：
+
+```python
+df.groupby("age_group")["survived"].mean()
 ```
 
 ---
 
-# 8. Colab Notebook 要求（重要）
+請自己決定：
 
-請整理成 Google Colab：
+哪些圖最適合？
 
-## 必須包含：
+並說明原因。
 
-✔ 程式碼
-✔ 圖表
-✔ markdown 說明
-✔ conclusion
+---
+
+# Project 4：Titanic Business Case
+
+## Business Question
+
+> 票價越高的人是否越容易生還？
+
+完成：
+
+---
+
+### Scatterplot
+
+fare vs survived
+
+---
+
+### Boxplot
+
+survived vs fare
+
+---
+
+### Histogram
+
+fare distribution
+
+---
+
+回答：
+
+* fare 是否偏態？
+* 有沒有離群值？
+* 哪一組 fare 較高？
+
+---
+
+# Project 5：Feature Engineering
+
+建立：
+
+```python
+family_size = sibsp + parch + 1
+```
+
+新增：
+
+```python
+df["family_size"]
+```
+
+再建立：
+
+```python
+is_alone
+```
+
+分析：
+
+```python
+df.groupby("is_alone")["survived"].mean()
+```
+
+請回答：
+
+> 一個人旅行比較容易生還嗎？
+
+---
+
+# Project 6：Correlation Analysis
+
+建立：
+
+```python
+is_female
+```
+
+完成：
+
+```python
+df.corr(numeric_only=True)
+```
+
+畫：
+
+```python
+heatmap
+```
+
+回答：
+
+* 哪個變數和 survived 最相關？
+* fare 和 class 是否相關？
+* age 是否重要？
+
+---
+
+# Project 7：Visualization Reading
+
+不要寫程式。
+
+只看圖。
+
+請分析：
+
+* Histogram
+* Boxplot
+* Scatterplot
+* Heatmap
+
+回答：
+
+1. 分布
+2. 偏態
+3. Outlier
+4. Correlation
+5. 下一步分析
+
+---
+
+# Project 8：Business Report
+
+請整理成一份 Markdown 報告。
+
+內容包含：
+
+## 1. Business Question
+
+---
+
+## 2. Dataset
+
+---
+
+## 3. EDA
+
+加入：
+
+* 圖片
+* 解釋
+
+---
+
+## 4. Statistical Thinking
+
+請回答：
+
+如果：
+
+* 類別 vs 數值
+
+該怎麼辦？
+
+如果：
+
+* 類別 vs 類別
+
+該怎麼辦？
+
+如果：
+
+* 數值 vs 數值
+
+該怎麼辦？
+
+---
+
+## 5. Business Conclusion
+
+最後請用約 300～500 字完成一份完整分析報告。
+
+不要只描述圖表，而是回答：
+
+> 從資料中得到哪些商業洞察？
 
 ---
 
 # 🎯 Day 7 完成後能力
 
-你已經可以：
+你將能夠：
 
-✔ 做完整 EDA
-✔ 用 groupby 找 insight
-✔ 畫基本統計圖
-✔ 解釋資料
-✔ 寫分析報告
+✅ 獨立完成 EDA
 
----
+✅ 自己選擇適合的圖表
 
-# 🚀 下一步（非常重要）
+✅ 判讀 Histogram、Boxplot、Heatmap
 
-如果你完成 Day 7，你已經接近：
+✅ 使用 Group Analysis 找出 Insight
 
-> Junior Data Analyst Level
+✅ 建立 Feature Engineering
 
-下一步建議：
+✅ 判斷適合的統計檢定方法
 
-## Day 8：完整 Data Analysis Project（進階）
-
-* 加入 feature engineering
-* missing value strategy
-* deeper insight
-* storytelling report
+✅ 撰寫 Business Report
 
 ---
 
-如果你要，我可以幫你做：
+# 🚀 Day 8 預告：Statistics for Data Scientists
 
-👉「完整 Titanic EDA 範例（像 Kaggle 等級）」
-👉「Colab 模板直接給你」
-👉「面試用 Data Analyst Portfolio 版本」
+將正式學習：
 
-只要說一聲就可以。
+* Descriptive Statistics
+* Hypothesis Testing
+* t-test
+* Welch's t-test
+* Mann–Whitney U Test
+* Chi-square Test
+* ANOVA
+* Correlation Analysis
+* Effect Size
+* 如何把統計結果寫成商業報告
+
+完成 Day 8 後，你就能從「會做 EDA」進一步提升到「能用統計方法驗證假設」。
